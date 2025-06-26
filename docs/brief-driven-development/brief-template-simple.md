@@ -21,6 +21,8 @@
 - Anything already supplied in claude.md / other docs  (e.g. how to write unit tests)
 
 **What TO include** (helpful hints):
+- Specific class names ("use the RedisCacheService")
+- Exact file paths ("look in UserController.cs")
 - General areas ("check how we do authentication")
 - Keywords to search for ("we call them 'policies'")
 - Similar features ("like our existing caching")
