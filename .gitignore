@@ -12,4 +12,4 @@ artifacts/
 
 # Local-only files
 *.local.*
-.obsidian/workspace.json
+.obsidian/

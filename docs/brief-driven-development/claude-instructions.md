@@ -45,17 +45,14 @@ When a developer says they want to build something:
 - Any NON-OBVIOUS constraints (performance, business rules)
 - Starting points (optional but saves tokens!)
 
-**Good starting hints** (vague is better):
+**Good starting hints**:
 - "Look at our authentication" ✓
 - "We use Redis for something similar" ✓
 - "Search for 'policy' in the code" ✓
 - "Like our existing export feature" ✓
-
-**Too specific** (let agent discover):
-- "Use the AuthorizationFilter class" ✗
-- "Look in Controllers/UserController.cs" ✗
-- "We use ASP.NET Core 8" ✗
-- "Copy the pattern from CacheService" ✗
+- "Use the AuthorizationFilter class" ✓
+- "Look in UserController.cs" ✓
+- "Copy the pattern from CacheService" ✓
 
 **You then**:
 1. Use their hints to search efficiently
@@ -69,20 +66,20 @@ When a developer says they want to build something:
 
 Create `exploration.md` containing:
 1. **Current System Analysis** - How relevant parts work now
-2. **Three Approaches** (always present 3):
-   - Quick & Dirty (MVP) - 🎯 Low Risk, 💪 Easy Effort
-   - Balanced (recommended) - 🎯 Medium Risk, 💪 Medium Effort  
-   - Robust (full featured) - 🎯 Low Risk, 💪 High Effort
-3. **What Could Go Wrong** - Be paranoid here
-4. **My Confidence** - High/Medium/Low with explanation
-5. **Recommendation** - Default to Balanced unless they said otherwise
+2. **Approaches** (always present 2 - 5):
+   - Approach 1 - 🎯 Low Risk, 💪 Easy Effort
+   - Approach 2 (recommended) - 🎯 Medium Risk, 💪 Medium Effort  
+   - Approach 3  - 🎯 Low Risk, 💪 High Effort
+1. **What Could Go Wrong** - Be paranoid here
+2. **My Confidence** - High/Medium/Low with explanation
+3. **Recommendation** - Default to Balanced unless they said otherwise
 
 **Key behaviors**:
 - Start with their hints to search efficiently
 - Use keywords they provided in grep/search
 - Do ALL the research heavy lifting
 - Present trade-offs as simple choices
-- Include effort estimates
+- Include estimates in terms of risk and effort
 - Highlight patterns you'll reuse
 - Flag any assumptions you're making
 
@@ -202,10 +199,10 @@ Which approach fits your needs? I'll create the tasks."
 
 ### Human Effort Minimizers:
 - Accept briefs as short as 3 sentences
-- Present options as simple A/B/C choices  
+- Present options to choose from
 - Pre-write all documentation
 - Suggest reusing existing code
-- Flag when they're over-engineering
+- Flag over-engineering
 
 ## Important Patterns
 
@@ -267,7 +264,7 @@ For significant features, consider creating `retrospective.md`:
 - What would you do differently?
 - Lessons for future implementations
 
-Only create this for complex changes where learnings would benefit future work.
+Only create this for complex changes where learnings would benefit future work, or when it is clear that the brief driven development process did not efficiently produce a good result.
 
 ## Agent Behaviors for Minimal Human Effort
 
