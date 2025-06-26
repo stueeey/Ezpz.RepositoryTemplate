@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FB001EC2-782A-4387-9720-C258FEA6915C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repository", "Repository", "{C8F5112B-F3C7-4E29-BC92-EDC6018048A7}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.targets = Directory.Build.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "packages", "packages", "{1DCABEF6-5424-4B86-BAA8-CDDBFCEA9E6D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "services", "services", "{CC512F1E-8D94-4B65-BBDA-1FBC449E3B65}"
+	ProjectSection(SolutionItems) = preProject
+		src\services\Directory.Packages.props = src\services\Directory.Packages.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "orchestrator", "orchestrator", "{1354F508-0FD7-4E2B-8B95-A178BF682EE7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Company.Platform.Orchestrator", "src\orchestrator\Company.Platform.Orchestrator\Company.Platform.Orchestrator.csproj", "{4F9728EC-CD90-4629-9A16-60F871C30286}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{D598B199-F893-4A0F-87FC-D97F75FDC851}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Company.Platform.Domain.App", "src\services\Domain\Company.Platform.Domain.App\Company.Platform.Domain.App.csproj", "{96BE3206-DFA3-414C-BF06-3D64D7E32581}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepositoryMap", "build\RepositoryMap.csproj", "{04CB954E-E779-48E9-847D-148A35094E4E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4F9728EC-CD90-4629-9A16-60F871C30286}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F9728EC-CD90-4629-9A16-60F871C30286}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F9728EC-CD90-4629-9A16-60F871C30286}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F9728EC-CD90-4629-9A16-60F871C30286}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96BE3206-DFA3-414C-BF06-3D64D7E32581}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96BE3206-DFA3-414C-BF06-3D64D7E32581}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96BE3206-DFA3-414C-BF06-3D64D7E32581}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96BE3206-DFA3-414C-BF06-3D64D7E32581}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04CB954E-E779-48E9-847D-148A35094E4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04CB954E-E779-48E9-847D-148A35094E4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04CB954E-E779-48E9-847D-148A35094E4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04CB954E-E779-48E9-847D-148A35094E4E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1DCABEF6-5424-4B86-BAA8-CDDBFCEA9E6D} = {FB001EC2-782A-4387-9720-C258FEA6915C}
+		{CC512F1E-8D94-4B65-BBDA-1FBC449E3B65} = {FB001EC2-782A-4387-9720-C258FEA6915C}
+		{1354F508-0FD7-4E2B-8B95-A178BF682EE7} = {FB001EC2-782A-4387-9720-C258FEA6915C}
+		{4F9728EC-CD90-4629-9A16-60F871C30286} = {1354F508-0FD7-4E2B-8B95-A178BF682EE7}
+		{D598B199-F893-4A0F-87FC-D97F75FDC851} = {CC512F1E-8D94-4B65-BBDA-1FBC449E3B65}
+		{96BE3206-DFA3-414C-BF06-3D64D7E32581} = {D598B199-F893-4A0F-87FC-D97F75FDC851}
+		{04CB954E-E779-48E9-847D-148A35094E4E} = {C8F5112B-F3C7-4E29-BC92-EDC6018048A7}
+	EndGlobalSection
+EndGlobal

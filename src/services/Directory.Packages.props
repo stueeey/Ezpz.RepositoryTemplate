@@ -1,0 +1,12 @@
+<Project>
+  <PropertyGroup>
+      <!-- Package versions are applied centrally rather than at a project level -->
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+      <!-- Package versions apply to packages that are only referenced indirectly -->
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+  </PropertyGroup>
+
+  <ItemGroup>
+    
+  </ItemGroup>
+</Project>

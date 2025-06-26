@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <RootNamespace>RepositoryMap</RootNamespace>
+        
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="$(RepositoryRoot)**/*.md" Exclude="$(RepositoryRoot)docs/**/*.*" Link="[Documentation]\%(RecursiveDir)%(Filename)"/>
+        <None Include="$(RepositoryRoot)docs/**/*.*" Link="[Documentation]\docs\%(RecursiveDir)%(Filename)"/>
+    </ItemGroup>
+    
+</Project>
