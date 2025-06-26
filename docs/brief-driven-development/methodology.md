@@ -31,6 +31,7 @@ The methodology distributes work based on comparative advantage:
 
 ### 4. Deep Problem Exploration
 - **Research First**: Understand the problem space before jumping to solutions
+- **Reframe to Avoid Local Maxima**: Question if we need to solve this problem at all
 - **Essential vs Accidental Complexity**: Distinguish what's truly necessary
 - **Multiple Paradigms**: Explore fundamentally different approaches
 - **Shape to Fit**: Adapt theoretical solutions to actual codebase patterns
@@ -60,24 +61,36 @@ The methodology distributes work based on comparative advantage:
    - Identify what's being asked vs what's actually needed
    - Surface hidden constraints and assumptions
 
-2. **Solution Exploration** (2-5 approaches):
+2. **Reframing Check**:
+   - Question: "What if we didn't need to solve this at all?"
+   - Look for ways to eliminate the problem rather than solve it
+   - Consider: "X is the simplest solution to Y, but what if we changed Y?"
+   - Document any reframes that could bypass the entire problem
+
+3. **Solution Exploration** (2-5 approaches + reframes):
    - Research existing solutions and patterns
    - Explore fundamentally different architectures
-   - Understand essential vs accidental complexity
-   - Each approach should represent a different paradigm, not just scope
+   - Include at least one reframe if possible
+   - Each approach should represent a different paradigm
 
 **Examples of Meaningful Differences**:
 - Event-driven vs request-response
 - Centralized vs distributed
 - Push vs pull mechanisms
 - Synchronous vs asynchronous processing
-- Different data modeling approaches
+- **Reframe**: Eliminate the need entirely
+
+**Example Reframes**:
+- "Add caching" → "Make the operation so fast caching isn't needed"
+- "Add rate limiting" → "Make operations so cheap abuse doesn't matter"
+- "Add queue processing" → "Make it synchronous but 10x faster"
+- "Add monitoring" → "Make the system self-evident"
 
 **Key behaviors**:
-- Start with hints but expand research broadly
+- Always consider at least one reframe
 - Question assumptions in the brief
+- Look for solutions that eliminate rather than manage complexity
 - Focus on architectural trade-offs, not just effort
-- Recommend based on simplicity AND effectiveness
 
 ### Phase 3: PLAN (AI creates)
 **Purpose**: Shape the chosen approach to fit elegantly with the existing codebase
@@ -206,5 +219,6 @@ Throughout both phases, the AI should ask:
 - Am I solving the real problem or just the stated problem?
 - What's the simplest thing that could possibly work?
 - What complexity is truly necessary?
+- **Is there a reframe that eliminates this problem entirely?**
 
 The key is elevating the technical conversation: AI handles the research and documentation heavy-lifting, while humans make nuanced architectural decisions based on comprehensive analysis.

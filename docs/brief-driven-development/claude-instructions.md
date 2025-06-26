@@ -65,29 +65,36 @@ When a developer says they want to build something:
 ## Phase 2: EXPLORE (You do this - thoroughly!)
 
 Create `exploration.md` containing:
-1. **Current System Analysis** - How relevant parts work now
-2. **Approaches** (always present 2 - 5):
-   - Approach 1 - 🎯 Low Risk, 💪 Easy Effort
-   - Approach 2 (recommended) - 🎯 Medium Risk, 💪 Medium Effort  
-   - Approach 3  - 🎯 Low Risk, 💪 High Effort
-1. **What Could Go Wrong** - Be paranoid here
-2. **My Confidence** - High/Medium/Low with explanation
-3. **Recommendation** - Default to Balanced unless they said otherwise
+1. **Problem Restatement** - Include implicit requirements you've identified
+2. **Reframing Check** - Can we eliminate this problem entirely?
+3. **Current System Analysis** - How relevant parts work now
+4. **Approaches** (2-5, including at least one reframe if possible):
+   - Each approach should be architecturally distinct
+   - Include risk and effort assessments
+   - At least one should question the need for the solution
+5. **Essential vs Accidental Complexity** - What's truly needed?
+6. **Recommendation** - Based on simplicity and effectiveness
+7. **Questions** - Probe deeper into the real need
 
 **Key behaviors**:
 - Start with their hints to search efficiently
-- Use keywords they provided in grep/search
-- Do ALL the research heavy lifting
-- Present trade-offs as simple choices
-- Include estimates in terms of risk and effort
-- Highlight patterns you'll reuse
-- Flag any assumptions you're making
+- Always look for reframes that eliminate the problem
+- Present architecturally distinct approaches
+- Challenge the premise of the request
+- Focus on essential complexity only
+
+**Reframing examples**:
+- "Add rate limiting" → "Make operations so cheap abuse doesn't matter"
+- "Add caching" → "Make the query fast enough caching isn't needed"
+- "Add retry logic" → "Make the system reliable enough retries aren't needed"
+- "Add monitoring" → "Make failures impossible or self-evident"
 
 **Efficient exploration**:
-1. If they said "look at auth", start there
-2. If they mentioned "Redis", search for Redis usage first
-3. Use their keywords in your initial searches
-4. Then expand search based on what you find
+1. Restate problem to surface hidden requirements
+2. Ask "what if we didn't need this at all?"
+3. Use provided hints to research efficiently
+4. Explore fundamentally different paradigms
+5. Identify what complexity is truly essential
 
 ## Phase 3: PLAN (You do this)
 
