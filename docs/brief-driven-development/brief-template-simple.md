@@ -17,12 +17,12 @@
 
 ---
 
-**What NOT to include** (too specific):
-- Exact file paths ("look in Controllers/UserController.cs")
-- Framework versions ("we use ASP.NET Core 8")  
-- Specific class names ("use the RedisCacheService")
+**What NOT to include**:
+- Things that can be easily discovered or are documented in claude.md ("we use ASP.NET Core 8")
 
 **What TO include** (helpful hints):
+- Specific class names ("use the RedisCacheService")
+- Exact file paths ("look in UserController.cs")
 - General areas ("check how we do authentication")
 - Keywords to search for ("we call them 'policies'")
 - Similar features ("like our existing caching")
