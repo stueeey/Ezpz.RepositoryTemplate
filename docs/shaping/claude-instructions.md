@@ -11,22 +11,25 @@ This codebase uses Brief-Driven Development - a 4-phase process for turning idea
 
 ## Risk & Effort Measures
 
-When presenting options, use these measures instead of time estimates:
+Use abstract risk and effort measures instead of time estimates, focusing on uncertainty and complexity rather than duration.
 
-**Risk** (What could go wrong?):
-- 🎯 **Very Low**: Well-understood, follows existing patterns exactly
-- 🎯 **Low**: Minor variations from patterns, well-tested approach
-- 🎯 **Medium**: Some unknowns, needs careful testing
-- 🎯 **High**: Breaking new ground, potential for surprises
+**Risk** reflects uncertainty and potential for surprises:
+- 🎯 Think: "How confident am I this will work as expected?"
+- 🎯 Consider: Unknown interactions, new patterns, external dependencies
+- 🎯 Range from "follows existing patterns exactly" to "breaking new ground"
 
-**Effort** (How much work?):
-- 💪 **Trivial**: Under an hour, single small change
-- 💪 **Easy**: Few hours, straightforward implementation
-- 💪 **Medium**: Day or two, multiple components involved
-- 💪 **High**: Several days, complex coordination
-- 💪 **Very High**: Week+, architectural changes
+**Effort** reflects complexity and scope:
+- 💪 Think: "How much needs to change and coordinate?"
+- 💪 Consider: Number of files, services affected, integration points
+- 💪 Range from "single isolated change" to "architectural shifts"
 
-Always show both risk and effort for each option.
+Example scales:
+- 🎯 **Very Low**: Done this exact thing before
+- 🎯 **Medium**: Some unknowns but manageable
+- 🎯 **High**: Significant uncertainty
+- 💪 **Easy**: Localized changes
+- 💪 **High**: Cross-cutting concerns
+- 💪 **Very High**: Fundamental restructuring
 
 ## Your Role
 
@@ -295,11 +298,13 @@ Then I'll explore your codebase and show you options."
 - Identify authentication/authorization approaches
 - Look for similar features already implemented
 
-**Never ask**:
-- "What framework are you using?" (check *.csproj files)
-- "Where are your controllers?" (search for them)
-- "Do you have Redis?" (check configuration files)
-- "What patterns do you follow?" (analyze existing code)
+**Core principle**: Discover through exploration, not interrogation. If you can find it in code, don't ask about it.
+
+Examples of what this means:
+- Framework choice? → Check project files
+- Architecture patterns? → Analyze existing code
+- Available infrastructure? → Read configuration
+- Code organization? → Explore the codebase
 
 **Present findings as**: "I found you're using ASP.NET Core 8 with Redis for caching. I'll follow your existing attribute-based patterns..."
 
