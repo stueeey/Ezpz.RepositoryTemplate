@@ -6,6 +6,7 @@
 **Dependencies**: None (can work in parallel with tasks 001 & 002)
 
 ## Objective
+
 Add configuration options for rate limiting that can be adjusted per environment without code changes.
 
 ## Implementation Steps
@@ -43,11 +44,13 @@ Add configuration options for rate limiting that can be adjusted per environment
    ```
 
 ## Validation Criteria
+
 - [ ] Configuration loads correctly from appsettings.json
 - [ ] Can override settings in appsettings.Development.json
 - [ ] Missing configuration uses sensible defaults
 - [ ] Configuration is available via DI in services
 
 ## Notes
+
 - Consider adding configuration validation on startup
 - Document all available options in appsettings comments

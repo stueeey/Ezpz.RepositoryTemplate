@@ -15,9 +15,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="artifacts\">
-        <Link>[Build]\artifacts</Link>
-      </Folder>
+        <Folder Include="artifacts\">
+            <Link>[Build]\artifacts</Link>
+        </Folder>
     </ItemGroup>
-    
+
 </Project>

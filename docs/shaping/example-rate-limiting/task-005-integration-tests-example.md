@@ -6,6 +6,7 @@
 **Dependencies**: Tasks 001, 002, 004 (needs working implementation)
 
 ## Objective
+
 Create comprehensive integration tests to verify rate limiting works correctly in various scenarios.
 
 ## Implementation Steps
@@ -30,16 +31,17 @@ Create comprehensive integration tests to verify rate limiting works correctly i
    ```
 
 2. Create `RateLimitTests/RateLimitRedisFailureTests.cs`
-   - Test fail-open behavior
-   - Verify logging on Redis errors
-   - Ensure requests aren't blocked
+    - Test fail-open behavior
+    - Verify logging on Redis errors
+    - Ensure requests aren't blocked
 
 3. Create `RateLimitTests/RateLimitPerformanceTests.cs`
-   - Verify < 50ms latency added
-   - Test under high concurrency
-   - Memory usage remains stable
+    - Verify < 50ms latency added
+    - Test under high concurrency
+    - Memory usage remains stable
 
 ## Validation Criteria
+
 - [ ] All test scenarios pass
 - [ ] Tests use TestContainers for Redis
 - [ ] Performance tests confirm < 50ms overhead
@@ -47,11 +49,13 @@ Create comprehensive integration tests to verify rate limiting works correctly i
 - [ ] Tests can run in CI pipeline
 
 ## Test Data
+
 - Use test users with different subscription tiers
 - Generate burst traffic patterns
 - Simulate Redis connection failures
 
 ## Notes
+
 - Reuse existing `IntegrationTestBase` infrastructure
 - Consider adding load tests separately
 - Document any flaky tests and mitigation

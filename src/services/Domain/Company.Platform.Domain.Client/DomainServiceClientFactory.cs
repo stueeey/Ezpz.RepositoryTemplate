@@ -8,10 +8,7 @@ public static class DomainServiceClientFactory
 {
     public static IServiceCollection AddDomainServiceClient(this IServiceCollection services, Uri baseAddress)
     {
-        services.AddGrpcClient<Greeter.GreeterClient>(o =>
-        {
-            o.Address = baseAddress;
-        });
+        services.AddGrpcClient<Greeter.GreeterClient>(o => { o.Address = baseAddress; });
 
         return services;
     }

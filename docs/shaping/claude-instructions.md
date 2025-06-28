@@ -11,19 +11,23 @@ This codebase uses Brief-Driven Development - a 4-phase process for turning idea
 
 ## Risk & Effort Measures
 
-Use abstract risk and effort measures instead of time estimates, focusing on uncertainty and complexity rather than duration.
+Use abstract risk and effort measures instead of time estimates, focusing on uncertainty and complexity rather than
+duration.
 
 **Risk** reflects uncertainty and potential for surprises:
+
 - 🎯 Think: "How confident am I this will work as expected?"
 - 🎯 Consider: Unknown interactions, new patterns, external dependencies
 - 🎯 Range from "follows existing patterns exactly" to "breaking new ground"
 
 **Effort** reflects complexity and scope:
+
 - 💪 Think: "How much needs to change and coordinate?"
 - 💪 Consider: Number of files, services affected, integration points
 - 💪 Range from "single isolated change" to "architectural shifts"
 
 Example scales:
+
 - 🎯 **Very Low**: Done this exact thing before
 - 🎯 **Medium**: Some unknowns but manageable
 - 🎯 **High**: Significant uncertainty
@@ -34,6 +38,7 @@ Example scales:
 ## Your Role
 
 When a developer says they want to build something:
+
 1. Ask for a brief (can be just 3-5 sentences!)
 2. Fill in any gaps by asking clarifying questions
 3. Do the heavy lifting: explore thoroughly, plan concretely
@@ -43,12 +48,14 @@ When a developer says they want to build something:
 ## Phase 1: BRIEF (Keep it simple for humans)
 
 **Minimum brief** (human can provide just this):
+
 - What to build (1-2 sentences)
-- Why it matters (1 sentence)  
+- Why it matters (1 sentence)
 - Any NON-OBVIOUS constraints (performance, business rules)
 - Starting points (optional but saves tokens!)
 
 **Good starting hints**:
+
 - "Look at our authentication" ✓
 - "We use Redis for something similar" ✓
 - "Search for 'policy' in the code" ✓
@@ -58,28 +65,32 @@ When a developer says they want to build something:
 - "Copy the pattern from CacheService" ✓
 
 **You then**:
+
 1. Use their hints to search efficiently
 2. Discover specific implementations yourself
 3. Ask ONLY about business context if needed
 4. Create the full brief.md including what you discovered
 
-**Your response**: "I understand you want [feature] because [reason]. I'll start by looking at [their hint] and explore from there to create a full plan."
+**Your response**: "I understand you want [feature] because [reason]. I'll start by looking at [their hint] and explore
+from there to create a full plan."
 
 ## Phase 2: EXPLORE (You do this - thoroughly!)
 
 Create `exploration.md` containing:
+
 1. **Problem Restatement** - Include implicit requirements you've identified
 2. **Reframing Check** - Can we eliminate this problem entirely?
 3. **Current System Analysis** - How relevant parts work now
 4. **Approaches** (2-5, including at least one reframe if possible):
-   - Each approach should be architecturally distinct
-   - Include risk and effort assessments
-   - At least one should question the need for the solution
+    - Each approach should be architecturally distinct
+    - Include risk and effort assessments
+    - At least one should question the need for the solution
 5. **Essential vs Accidental Complexity** - What's truly needed?
 6. **Recommendation** - Based on simplicity and effectiveness
 7. **Questions** - Probe deeper into the real need
 
 **Key behaviors**:
+
 - Start with their hints to search efficiently
 - Always look for reframes that eliminate the problem
 - Present architecturally distinct approaches
@@ -87,12 +98,14 @@ Create `exploration.md` containing:
 - Focus on essential complexity only
 
 **Reframing examples**:
+
 - "Add rate limiting" → "Make operations so cheap abuse doesn't matter"
 - "Add caching" → "Make the query fast enough caching isn't needed"
 - "Add retry logic" → "Make the system reliable enough retries aren't needed"
 - "Add monitoring" → "Make failures impossible or self-evident"
 
 **Efficient exploration**:
+
 1. Restate problem to surface hidden requirements
 2. Ask "what if we didn't need this at all?"
 3. Use provided hints to research efficiently
@@ -102,6 +115,7 @@ Create `exploration.md` containing:
 ## Phase 3: PLAN (You do this)
 
 Create `plan.md` containing:
+
 1. **Overview** - 2-3 sentence summary
 2. **Architecture** - Component design and data flow
 3. **Detailed Changes** - Interfaces, signatures, and contracts
@@ -111,6 +125,7 @@ Create `plan.md` containing:
 7. **Configuration** - Any settings/config changes
 
 **Key behaviors**:
+
 - Focus on interfaces and class signatures
 - Include XML documentation comments
 - Show method signatures without implementations
@@ -118,6 +133,7 @@ Create `plan.md` containing:
 - Be specific about file locations and integration points
 
 **What to include**:
+
 ```csharp
 // YES: Interfaces with documentation
 public interface IRateLimitService
@@ -224,12 +240,14 @@ Which approach fits your needs? I'll create the tasks."
 ```
 
 ### When planning:
+
 ```csharp
 // Don't say "Modify the user controller"
 // Do say "In Controllers/UserController.cs at line 45, add the [RateLimit] attribute after [Authorize]"
 ```
 
 ### When creating tasks:
+
 ```csharp
 // Don't create "Implement rate limiting" (too big)
 // Do create "Add RateLimitAttribute to authentication endpoints" (specific, bounded)
@@ -238,6 +256,7 @@ Which approach fits your needs? I'll create the tasks."
 ## File Structure
 
 Work documents go in:
+
 ```
 work/
 └── feature-name/
@@ -250,12 +269,13 @@ work/
 ```
 
 **Task file naming**:
+
 - Include number AND description: `task-001-core-service.md`
 - Not just: `task-001.md` (too vague)
 - Examples:
-  - `task-001-create-database-schema.md`
-  - `task-002-api-endpoints.md`
-  - `task-003-frontend-components.md`
+    - `task-001-create-database-schema.md`
+    - `task-002-api-endpoints.md`
+    - `task-003-frontend-components.md`
 
 ## Remember
 
@@ -269,29 +289,35 @@ work/
 ## Optional: Retrospective
 
 For significant features, consider creating `retrospective.md`:
+
 - What patterns emerged?
 - What was harder than expected?
 - What would you do differently?
 - Lessons for future implementations
 
-Only create this for complex changes where learnings would benefit future work, or when it is clear that the brief driven development process did not efficiently produce a good result.
+Only create this for complex changes where learnings would benefit future work, or when it is clear that the brief
+driven development process did not efficiently produce a good result.
 
 ## Agent Behaviors for Minimal Human Effort
 
 ### Starting a Feature (Make it effortless)
+
 When human says: "I need to add search to the products page"
 
 **DON'T**: "Please write a brief first with objectives, context, success criteria..."
 
 **DO**: "Got it - search for the products page. Quick questions:
-1. Full-text search or just by product name? 
+
+1. Full-text search or just by product name?
 2. How many products (ballpark)?
 3. Real-time or OK with 'Search' button?
 
 Then I'll explore your codebase and show you options."
 
 ### During Exploration (Do the heavy lifting)
+
 **Discovery behaviors**:
+
 - Search for project files to identify tech stack (*.csproj, package.json, etc.)
 - Find existing patterns before proposing new ones
 - Check for available infrastructure (Redis, databases, queues)
@@ -301,18 +327,22 @@ Then I'll explore your codebase and show you options."
 **Core principle**: Discover through exploration, not interrogation. If you can find it in code, don't ask about it.
 
 Examples of what this means:
+
 - Framework choice? → Check project files
 - Architecture patterns? → Analyze existing code
 - Available infrastructure? → Read configuration
 - Code organization? → Explore the codebase
 
-**Present findings as**: "I found you're using ASP.NET Core 8 with Redis for caching. I'll follow your existing attribute-based patterns..."
+**Present findings as**: "I found you're using ASP.NET Core 8 with Redis for caching. I'll follow your existing
+attribute-based patterns..."
 
 ### Presenting Options (Simple choices)
+
 **DON'T**: Present 10 implementation details for human to evaluate
 
-**DO**: 
+**DO**:
 "I found 3 ways to do this:
+
 - **Quick**: Basic search, 90% of value - 🎯 Medium Risk, 💪 Trivial Effort
 - **Balanced**: + filters and sorting - 🎯 Low Risk, 💪 Easy Effort
 - **Deluxe**: + fuzzy search, autocomplete - 🎯 Very Low Risk, 💪 Medium Effort
@@ -320,11 +350,13 @@ Examples of what this means:
 Recommendation: Balanced. Which do you prefer?"
 
 ### Task Creation (Pre-chunked)
+
 **DON'T**: "How should we break this down?"
 
 **DO**: "I've broken this into 5 tasks (2 small, 2 medium, 1 large):
+
 1. ✓ Add search box to UI (small)
-2. ✓ Create search endpoint (medium)  
+2. ✓ Create search endpoint (medium)
 3. ✓ Add database indexes (small)
 4. ✓ Implement search logic (large)
 5. ✓ Add search tests (medium)
@@ -332,20 +364,25 @@ Recommendation: Balanced. Which do you prefer?"
 Look good? I can combine 1+2 or split 4 if you prefer."
 
 ### Catching Shortcuts (Protective guidance)
+
 When you spot them over-engineering:
-"Hey, I found our existing DataTable component already has filtering. Want to use that instead of building custom search? Saves 3 tasks."
+"Hey, I found our existing DataTable component already has filtering. Want to use that instead of building custom
+search? Saves 3 tasks."
 
 When they're under-engineering:
 "Heads up: with 50k products, this approach might be slow. Want me to add caching? Just 1 extra small task."
 
 ### Risk & Effort Quick Reference
+
 When describing any implementation:
+
 - Always lead with risk first (users care more about what could break)
 - Use emojis consistently: 🎯 for risk, 💪 for effort
 - Combine when describing tasks: "Task 1: Add search endpoint - 🎯 Low Risk, 💪 Easy"
 - For task lists, can abbreviate: "Small task (🎯L 💪T)" for Low risk, Trivial effort
 
 ### The Golden Rule
+
 **Humans provide direction and validation.**
 **Agents do research, documentation, and chunking.**
 

@@ -1,178 +1,217 @@
+---
+role: Expert peer programming agent with extensive and wide knowledge of many domains and technologies
+goal: Build high-quality code following established patterns and conventions
+remember: You do the heavy lifting (research, documentation, technical details) while humans make functional/architectural decisions.
+---
 
-## Structure & Conventions
+# Repository Guide
+
+**IMPORTANT**: This repository uses specific processes for different types of work:
+
+- **RFC Process** → For technology/vendor/architecture selection (create `docs/rfc/{topic}/brief.md`)
+- **Shaping Process** → For feature implementation (create `docs/work/{feature}/brief.md`)
+- **ADR Process** → For documenting major decisions (create `docs/adr/ADR-{number}-{title}.md`)
+
+**YOUR FIRST ACTION**: When receiving any non-trivial request, identify which process to use:
+
+- Technology/vendor question? → Say "I'll start an RFC process for this"
+- Feature request? → Say "I'll use the shaping process for this feature"
+- Major decision made? → Say "I'll document this decision in an ADR"
+
+Never skip these processes unless it's a trivial fix which does not require upfront design (use your judgement)
+
+## Development Processes
+
+### Process Triggers & Examples
+
+**RFC Process** (Start when hearing):
+
+- "We need authentication" → Create RFC comparing Auth0/Okta/Cognito
+- "Looking for a message queue" → RFC for Kafka/RabbitMQ/ServiceBus
+- "Should we use X or Y?" → RFC comparing options
+- Any vendor/technology selection
+
+**Shaping Process** (Start when hearing):
+
+- "Add user avatars" → Brief, explore approaches, plan, chunk tasks
+- "Implement rate limiting" → Follow 4-phase process
+- "Build feature X" → Start with brief.md
+- Any new functionality
+
+**Direct Implementation** (No process needed):
+
+- "Fix this typo"
+- "Update this dependency"
+- "Rename this variable"
+- Simple, obvious changes
+
+### Shaping Process Steps
+
+1. **Create brief** → `docs/work/{feature}/brief.md` (or ask user to write)
+2. **Explore options** → Research codebase, find 2-5 approaches + reframes
+3. **Plan implementation** → Shape chosen approach to fit patterns
+4. **Chunk into tasks** → Create executable S/M/L/XL work items
+
+**ALWAYS explore reframes** - ways to eliminate the problem entirely!
+
+### RFC Process Steps
+
+1. **Create brief** → `docs/rfc/{topic}/brief.md`
+2. **Research industry** → Compare options without codebase constraints
+3. **Make recommendation** → Based on requirements and trade-offs
+4. **Then shape** → Use RFC output as input for implementation
+
+## Tool Selection Cheat Sheet
+
+### Use Memory MCP Server for:
+
+- **search_code**: Semantic searches, ranked results, logical operators (AND/OR/NOT)
+- **query_code**: AST pattern matching (`public class $NAME`, `def $FUNC($ARGS)`)
+- **extract_code**: Get specific symbols (`file.cs#MethodName`) or line ranges
+
+### Use Built-in Tools for:
+
+- **Glob**: Find files by name/extension (`**/*.cs`)
+- **Grep**: Simple text search, exact matches
+- **Read**: View entire files, non-code files
+- **Task**: Complex multi-step searches
+
+### Quick Decision:
+
+- Finding how something works? → `mcp__memory__search_code`
+- Finding specific code patterns? → `mcp__memory__query_code`
+- Finding files by name? → `Glob`
+- Simple string search? → `Grep`
+
+## Key Directories
 
 ```
-.
-├── CLAUDE.md                    # AI documentation (this file)
-├── HUMANS.md                    # Human-focused AI usage guide
-├── README.md                    # Primary human documentation
-├── .editorconfig               # Code style with LLM comments
-├── .gitignore                  # Version control config
-├── docs/
-│   ├── packages.md             # External package listing
-│   ├── design/
-│   │   ├── research/           # Problem definition
-│   │   ├── discovery/          # Change analysis
-│   │   ├── plan/              # Implementation plans
-│   │   └── adr/               # Architecture decisions
-│   ├── reference/             # External docs (git-ignored)
-│   └── how-to/                # Task guides
-├── src/
-│   ├── packages/              # Internal NuGet packages
-│   │   └── {domain}/          # e.g., events, i18n
-│   ├── services/              # Microservices
-│   │   ├── Directory.Packages.props
-│   │   └── {service}/
-│   │       ├── *.Contracts
-│   │       ├── *.App
-│   │       ├── *.Migrator.App
-│   │       ├── *.Client
-│   │       ├── *.App.Tests
-│   │       ├── *.ApiTests
-│   │       └── *.E2ETests
-│   ├── orchestrator/          # Aspire local dev
-│   └── specifications/        # API contracts
-│       ├── openapi/
-│       └── protobuf/
-├── build/                     # MSBuild configuration
-│   ├── *.props               # Build settings
-│   └── conventions/          # Project type imports
-├── artifacts/                # Build outputs
-├── pipelines/               # CI/CD workflows
-├── infrastructure/          # Bicep IaC
-└── scripts/                # Automation tools
+docs/
+├── rfc/          # Technology research & vendor selection
+├── work/         # Active feature development (shaping)
+├── adr/          # Architecture decisions
+└── feedback/     # Agent-generated improvement suggestions
+
+src/
+├── packages/     # Internal NuGet packages (events, i18n, etc.)
+├── services/     # Microservices with standard structure:
+│   └── {Service}/
+│       ├── *.Contracts    # API contracts, events
+│       ├── *.App          # Main executable
+│       ├── *.Tests        # Unit tests (TUnit)
+│       ├── *.ApiTests     # Integration tests (TUnit)
+│       └── *.E2ETests     # E2E tests (Playwright + TUnit)
+└── orchestrator/ # Aspire for local development
 ```
 
-### Root Files
-- **CLAUDE.md** - Main AI documentation (concise, always in context)
-- **HUMANS.md** - Human-focused guidance for using AI agents
-- **README.md** - Primary human documentation
-- **.editorconfig** - Code style with LLM context comments
-- **.gitignore** - Version control configuration
+**Service Patterns**:
 
-### Documentation (/docs)
-**Process:** RFC → Shaping (BRIEF → EXPLORE → PLAN → CHUNK)
+- Central package management via Directory.Packages.props
+- Packages use independent versioning
+- Standard project suffixes (.App, .Contracts, .Client, etc.)
 
-- **packages.md** - Internal packages from other repositories
-- **rfc/** - Request for Comments (large-scale research)
-    - **{feature}-rfc/** - Deep research on vendors/technologies
-        - `rfc.md` - Analysis and recommendations
-        - `appendix-*.md` - Optional deep-dive reports
-- **work/** - Shaping workspace
-    - **{feature}/** - Feature directories containing:
-        - `brief.md` - Human: what/why (3-5 sentences)
-        - `exploration.md` - AI: research & approaches (including reframes)
-        - `plan.md` - AI: shaped implementation
-        - `task-summary.md` - Together: dependencies & execution options
-        - `task-XXX-{name}.md` - Descriptively named tasks
-- **adr/** - Architecture Decision Records (major technology choices only)
-- **reference/** - External materials (git-ignored)
-- **how-to/** - Task guides with templates
-- **shaping/** - Shaping methodology and examples
+## ⚠️ Repository Warnings
 
-### Source Code (/src)
-- **packages/** - Internal NuGet packages by domain
-    - No central package management (target minimum versions)
-    - Auto-publish as NuGet on build
-    - Move to separate repo when stable (low frequency changes)
-    - Example domains: events, internationalization, packaging
+- NEVER commit secrets (use User Secrets, Azure Key Vault or files matching `*.local.*`)
+- Directory.Packages.props controls nuget dependency versions for services
+- Packages have independent nuget dependency versioning (no central management)
+- Always check existing patterns before implementing new ones
 
-- **services/** - Microservices (deploy to cloud)
-    - Central package management via Directory.Packages.props
-    - Standard structure per service:
-        - `.Contracts` - API contracts, events, metrics, manifest
-        - `.App` - Main executable (publishes as Docker container)
-        - `.Migrator.App` - Database migration host
-        - `.Client` - Service client library
-        - `.App.Tests` - Unit tests using xunit
-        - `.ApiTests` - Integration tests using NUnit
-        - `.E2ETests` - End-to-end tests using playwright + NUnit
+## Code Style
 
-- **orchestrator/** - Aspire orchestrator for local development
+- Follow .editorconfig settings
+- Use latest C# features
+- Prefer records for DTOs
+- Use ISO standard formats wherever an appropriate one exists (e.g. CloudEvents, ISO8601)
 
-- **specifications/** - API contracts
-    - **openapi/** - OpenAPI specifications and fragments
-    - **protobuf/** - Shared protobuf schemas
+## Testing Guidelines
 
-### Build System (/build)
-- **Analysis.props** - Code analysis and warnings
-- **Tooling.props** - Build configuration
-- **LanguageFeatures.props** - .NET language features
-- **RepositoryInfo.props** - Repository metadata
-- **conventions/** - MSBuild imports for project types
+- **Unit Tests**: TUnit, AwesomeAssertions (FluentAssertions fork), FakeItEasy
+- **API Tests**: TUnit
+- **E2E Tests**: TUnit, Playwright
+- Run tests after code changes
+- Test naming: `Given_Subject_ExpectedResult`
+- Tests should also have descriptive attributes
 
-### Other Directories
-- **artifacts/** - Build outputs (packages, binaries, specifications)
-- **pipelines/** - CI/CD workflows (build, test, deploy)
-- **infrastructure/** - IAC modules and service configs
-- **scripts/** - Automation tools and setup
+## Repository Etiquette
 
-## Instructions
+- **IMPORTANT**: Run tests and linter (qodana) before committing
+- **IMPORTANT**: Check for existing patterns before creating new ones
+- Create feedback files when documentation is missing so that it can be improved
+- Follow the Brief → Explore → Plan → Chunk process for features
+- Use semantic commit messages (feat:, fix:, docs:, refactor:)
+- Never push directly to main branch
 
-When exploring the code, consider using the MCP server named "Memory"
+## Common Commands
 
-## Shaping Process
+```bash
+# Build & Test
+dotnet build                    # Build all projects
+dotnet test --filter xunit      # Run unit tests only
+dotnet test --filter NUnit      # Run API/E2E tests only
 
-Elevates human-AI collaboration by distributing work based on comparative advantage:
-- **Humans**: Business context, architectural judgment, critical decisions
-- **AI**: Research, pattern discovery, comprehensive documentation
+# Local Development
+dotnet run --project src/orchestrator/Company.Platform.Orchestrator  # Start Aspire orchestrator
 
-### 4-Phase Process:
-1. **BRIEF** (human) → What/why in `docs/work/{feature}/brief.md` (3-5 sentences)
-2. **EXPLORE** (AI) → Research problem & 2-5 approaches (including reframes) in `exploration.md`
-3. **PLAN** (AI) → Shape chosen approach to fit codebase in `plan.md`
-4. **CHUNK** (together) → S/M/L/XL tasks with dependencies in `task-XXX-{name}.md`
+# Code Quality
+qodana scan --ide QDNET-EAP --print-problems --cleanup --show-report false # Heavyweight linter for when your work is completed to your satisfaction
+git log --since="6 months ago" --name-only docs/  # Find stale docs
+```
 
-Task sizes: Small (1 file), Medium (2-5 files), Large (6-10 files), XL (10+ files)
+## Core Files & Utilities
 
-**Key principle**: AI should always explore reframes - ways to eliminate the problem entirely rather than solve it. Examples:
-- "Add caching" → "Make operation so fast caching isn't needed"
-- "Add rate limiting" → "Make operations so cheap abuse doesn't matter"
+- `Directory.Packages.props` - Central version management for services
+- `build/*.props` - MSBuild configuration and conventions
+- `.editorconfig` - Code style rules (enforced by dotnet format)
+- `src/packages/` - Reusable nuget package projects
+- `docs/process-flow.md` - Detailed workflow guide
+- `docs/shaping/methodology.md` - Brief-driven development theory
 
-## RFC Process (Large-Scale Research)
+## Repository Feedback Mechanism
 
-For larger work requiring extensive vendor/technology research:
+When struggling with a task due to missing documentation or unclear conventions, create a feedback file:
 
-1. **Brief** (human) → Same starting point
-2. **RFC Research** (AI) → Deep dive into solutions without codebase constraints
-3. **RFC Document** → Theoretical approaches and recommendations
-4. **Then Shaping Process** → Shape RFC recommendations to fit codebase
+### Feedback Process
 
-Use RFCs when:
-- Evaluating vendors (Auth0 vs Okta vs Cognito)
-- Choosing technologies (Kafka vs RabbitMQ vs Service Bus)
-- Exploring paradigms (event sourcing vs state-based)
+1. Complete the task best effort
+2. Create `docs/feedback/FEEDBACK_{date}_{topic}.md` with:
+    - What you were trying to do
+    - What documentation/files you couldn't find
+    - What conventions were unclear
+    - Suggested improvements
+3. Continue with task, noting assumptions made
 
-RFC outputs focus on "what works in theory" while the shaping process determines "what works in our codebase".
+### Example Feedback File
 
-## Process Flow Summary
+```markdown
+# Feedback: Authentication Setup Confusion
 
-[Full details in docs/process-flow.md]
+**Date**: 2024-01-15
+**Task**: Add OAuth to new service
 
-### Starting Work
-- **Inline prompt**: User describes need → You create brief
-- **Written brief**: User provides `docs/work/{feature}/brief.md`
-- **Research materials**: If user mentions `docs/reference/`, likely needs RFC
+**Issues Encountered**:
+- No docs found for "authentication" or "oauth" patterns
+- Multiple auth implementations with different approaches
+- Unclear which pattern is current best practice
 
-### Decision Tree
-1. Vendor/technology choice? → RFC Process
-2. Needs implementation? → Shaping Process  
-3. Simple fix? → Just do it
+**Suggestions**:
+- Add `docs/AUTHENTICATION_patterns.md`
+- Document preferred auth library/approach
+- Add auth setup to service template
+```
 
-### RFC Signals
-Watch for: "research", "look into", "find out", "how should I", references to external materials
+## Developer Setup
 
-### Approval Gates
-Always pause for human approval at:
-- Brief review (problem framing)
-- Exploration/RFC review (findings)
-- Plan review (approach selection)
-- Task review (before implementation)
+```bash
+# Prerequisites
+# - .NET 8.0 SDK
+# - Docker Desktop
 
-### Creating ADRs
-Document major decisions that:
-- Affect entire system architecture
-- Are expensive/hard to reverse
-- Future devs need to understand
+# Initial setup
+dotnet restore              # Restore all packages
+dotnet tool restore         # Restore CLI tools
 
-Remember: You do the heavy lifting (research, documentation, technical details) while humans make business/architectural decisions.
+# Verify setup
+dotnet --version           # Should show 8.0.x
+docker --version           # Docker should be running
+```

@@ -5,12 +5,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Company.Platform.Domain.Contracts\Company.Platform.Domain.Contracts.csproj" />
+        <ProjectReference Include="..\Company.Platform.Domain.Contracts\Company.Platform.Domain.Contracts.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Grpc.Net.Client" />
-        <PackageReference Include="Microsoft.Extensions.Http" />
+        <PackageReference Include="Grpc.Net.Client"/>
+        <PackageReference Include="Microsoft.Extensions.Http"/>
     </ItemGroup>
 
 </Project>

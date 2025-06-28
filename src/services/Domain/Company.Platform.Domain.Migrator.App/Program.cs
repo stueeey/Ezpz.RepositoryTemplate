@@ -11,8 +11,8 @@ builder.Logging.AddConsole();
 
 // Add configuration
 builder.Configuration
-    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+    .AddJsonFile("appsettings.json", true, true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", true, true)
     .AddEnvironmentVariables();
 
 // Add services
@@ -24,8 +24,8 @@ await host.RunAsync();
 
 public class MigrationService : IHostedService
 {
-    private readonly ILogger<MigrationService> _logger;
     private readonly IHostApplicationLifetime _lifetime;
+    private readonly ILogger<MigrationService> _logger;
 
     public MigrationService(ILogger<MigrationService> logger, IHostApplicationLifetime lifetime)
     {
@@ -36,12 +36,12 @@ public class MigrationService : IHostedService
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         _logger.LogInformation("Starting database migration...");
-        
+
         try
         {
             // TODO: Add actual migration logic here
             // For now, this is just a placeholder
-            
+
             _logger.LogInformation("Database migration completed successfully");
         }
         catch (Exception ex)

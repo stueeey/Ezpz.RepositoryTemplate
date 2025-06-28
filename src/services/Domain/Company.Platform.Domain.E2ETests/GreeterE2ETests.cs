@@ -1,5 +1,4 @@
 using FluentAssertions;
-using Microsoft.Playwright;
 using Microsoft.Playwright.NUnit;
 using NUnit.Framework;
 
@@ -9,8 +8,6 @@ namespace Company.Platform.Domain.E2ETests;
 [Parallelizable(ParallelScope.Self)]
 public class GreeterE2ETests : PageTest
 {
-    private string _baseUrl;
-
     [SetUp]
     public void SetUp()
     {
@@ -18,6 +15,8 @@ public class GreeterE2ETests : PageTest
         // For now, this assumes the service is running locally
         _baseUrl = Environment.GetEnvironmentVariable("E2E_BASE_URL") ?? "https://localhost:5001";
     }
+
+    private string _baseUrl;
 
     [Test]
     public async Task HomePage_ShouldDisplayGrpcMessage()
@@ -35,7 +34,7 @@ public class GreeterE2ETests : PageTest
     {
         // This test verifies that the gRPC endpoint is accessible
         // In a real E2E test, you might use a gRPC client to make actual calls
-        
+
         var response = await Page.APIRequest.GetAsync(_baseUrl);
         response.Status.Should().Be(200);
     }
@@ -46,7 +45,7 @@ public class GreeterE2ETests : PageTest
     {
         // In a real scenario, you might have a health check endpoint
         // For now, we just verify the service is responding
-        
+
         var response = await Page.APIRequest.GetAsync(_baseUrl);
         response.Ok.Should().BeTrue();
     }

@@ -19,6 +19,6 @@
     </PropertyGroup>
 
     <!-- Include all the target files under /build -->
-    <Import Project="$(BuildExtensionsDirectory)*.props" />
-    
+    <Import Project="$(BuildExtensionsDirectory)*.props"/>
+
 </Project>

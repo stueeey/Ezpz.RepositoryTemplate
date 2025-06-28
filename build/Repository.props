@@ -1,5 +1,5 @@
 ﻿<Project>
-    
+
     <!-- This defines metadata about the repository as a whole and who owns it-->
     <PropertyGroup>
         <!-- Used by Nuget packages and assemblies -->

@@ -5,25 +5,22 @@
 version: "1.0"
 
 #Specify IDE code to run analysis without container (Applied in CI/CD pipeline)
-ide: QDNET
+ide: QDNET-EAP
 
 #Specify inspection profile for code analysis
 profile:
-  name: qodana.starter
+    name: qodana.recommended
 
-#Enable inspections
-#include:
-#  - name: <SomeEnabledInspectionId>
+failureConditions:
+    severityThresholds:
+        critical: 1 # Critical and other severities
+        high: 1
+        moderate: 20
+    testCoverageThresholds:
+        fresh: 75 # Fresh code coverage
+        total: 50 # Total code coverage
 
-#Disable inspections
-#exclude:
-#  - name: <SomeDisabledInspectionId>
-#    paths:
-#      - <path/where/not/run/inspection>
+fixesStrategy: cleanup
 
-#Execute shell command before Qodana execution (Applied in CI/CD pipeline)
-#bootstrap: sh ./prepare-qodana.sh
-
-#Install IDE plugins before Qodana execution (Applied in CI/CD pipeline)
-#plugins:
-#  - id: <plugin.id> #(plugin id can be found at https://plugins.jetbrains.com)
+include:
+    -   name: VulnerableLibrariesGlobal

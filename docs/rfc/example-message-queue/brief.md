@@ -1,6 +1,7 @@
 # Brief: Message Queue Infrastructure
 
 We need asynchronous messaging between our microservices for several use cases:
+
 - Order processing: Must guarantee exactly-once delivery and maintain order sequence
 - Inventory updates: Need pub/sub to notify multiple services when stock changes
 - Background jobs: Fire-and-forget tasks like sending emails and generating reports

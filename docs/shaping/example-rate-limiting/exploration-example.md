@@ -2,9 +2,11 @@
 
 ## Problem Restatement
 
-You asked for rate limiting to prevent API abuse, specifically because some users are making 1000s of requests/minute which degrades performance for everyone.
+You asked for rate limiting to prevent API abuse, specifically because some users are making 1000s of requests/minute
+which degrades performance for everyone.
 
 **Implicit requirements I'm inferring**:
+
 - Need to identify and throttle abusive users without impacting legitimate ones
 - Performance degradation suggests resource exhaustion (CPU, memory, or DB connections)
 - The 1000s/minute pattern suggests automated/bot traffic
@@ -16,6 +18,7 @@ You asked for rate limiting to prevent API abuse, specifically because some user
 ## Current System Analysis
 
 Found in your codebase:
+
 - ASP.NET Core 8 with attribute-based filters
 - Redis already used for caching (StackExchange.Redis)
 - Authentication via JWT tokens in `AuthorizationFilter`
@@ -25,16 +28,19 @@ Found in your codebase:
 ## Architectural Approaches
 
 ### Approach 1: Traditional Rate Limiting (Request Counting)
+
 **Paradigm**: Preventive request throttling
 
 Implement sliding window counters in Redis to track and limit requests per user/IP. Return 429 when limits exceeded.
 
 **Essential complexity**:
+
 - Tracking request counts per identity
 - Time window management
 - Limit configuration
 
 **Trade-offs**:
+
 - ✅ Simple, well-understood pattern
 - ✅ Clear feedback to clients
 - ❌ Doesn't consider request cost/complexity
@@ -44,16 +50,20 @@ Implement sliding window counters in Redis to track and limit requests per user/
 **Risk**: 🎯 Low | **Effort**: 💪 Easy
 
 ### Approach 2: Adaptive Load Shedding
+
 **Paradigm**: Reactive system protection
 
-Monitor system health metrics (CPU, memory, response times) and dynamically shed load when under stress, prioritizing by user tier.
+Monitor system health metrics (CPU, memory, response times) and dynamically shed load when under stress, prioritizing by
+user tier.
 
 **Essential complexity**:
+
 - Health metric collection
 - Dynamic decision making
 - Request prioritization
 
 **Trade-offs**:
+
 - ✅ Protects against actual resource exhaustion
 - ✅ Self-tuning based on system capacity
 - ✅ Handles varying request costs naturally
@@ -64,16 +74,20 @@ Monitor system health metrics (CPU, memory, response times) and dynamically shed
 **Risk**: 🎯 Medium | **Effort**: 💪 High
 
 ### Approach 3: Cost-Based Quotas
+
 **Paradigm**: Resource accounting
 
-Assign computational "costs" to different operations. Users get a quota of points that regenerate over time. Complex operations cost more points.
+Assign computational "costs" to different operations. Users get a quota of points that regenerate over time. Complex
+operations cost more points.
 
 **Essential complexity**:
+
 - Cost modeling for operations
 - Quota tracking and regeneration
 - Cost calculation framework
 
 **Trade-offs**:
+
 - ✅ Fair resource allocation
 - ✅ Naturally handles expensive operations
 - ✅ Flexible and business-aligned
@@ -84,16 +98,19 @@ Assign computational "costs" to different operations. Users get a quota of point
 **Risk**: 🎯 Medium | **Effort**: 💪 High
 
 ### Approach 4: Circuit Breaker Pattern
+
 **Paradigm**: Fault isolation
 
 Implement circuit breakers per user/tenant that trip when error rates exceed thresholds, providing automatic recovery.
 
 **Essential complexity**:
+
 - Failure detection
 - Circuit state management
 - Recovery mechanisms
 
 **Trade-offs**:
+
 - ✅ Protects against cascading failures
 - ✅ Self-healing behavior
 - ✅ Good for detecting abusive patterns
@@ -106,12 +123,14 @@ Implement circuit breakers per user/tenant that trip when error rates exceed thr
 ## Analysis of Essential vs Accidental Complexity
 
 **Essential for your problem**:
+
 - Identifying users/requests to limit
 - Tracking some form of usage
 - Enforcement mechanism
 - Fail-open behavior (your constraint)
 
 **Potentially accidental**:
+
 - Complex quota calculations
 - Real-time metric aggregation
 - Sophisticated prioritization algorithms
@@ -122,17 +141,20 @@ Implement circuit breakers per user/tenant that trip when error rates exceed thr
 **Recommended: Approach 1 (Traditional Rate Limiting) with pragmatic enhancements**
 
 Why:
+
 1. **Solves the stated problem** - Will stop the 1000s/minute abuse
 2. **Simple and predictable** - Easy to reason about and debug
 3. **Industry standard** - Well-understood by developers and users
 4. **Fits your patterns** - Natural extension of your attribute-based filters
 5. **Pragmatic enhancements** - Start simple, add cost-awareness only where needed
 
-The other approaches add complexity that may not be justified by your current problem. If you're seeing resource exhaustion from expensive operations (not just volume), we could layer in selective cost-based limits later.
+The other approaches add complexity that may not be justified by your current problem. If you're seeing resource
+exhaustion from expensive operations (not just volume), we could layer in selective cost-based limits later.
 
 ## Confidence Level
 
-**High** - This is a well-solved problem space. The traditional approach with your Redis infrastructure will handle your immediate needs effectively. The architecture allows evolution toward more sophisticated approaches if needed.
+**High** - This is a well-solved problem space. The traditional approach with your Redis infrastructure will handle your
+immediate needs effectively. The architecture allows evolution toward more sophisticated approaches if needed.
 
 ## Questions for You
 

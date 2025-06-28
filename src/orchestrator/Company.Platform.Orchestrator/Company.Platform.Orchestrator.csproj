@@ -11,9 +11,9 @@
     <ItemGroup>
         <PackageReference Include="Aspire.Hosting.AppHost" Version="9.2.0"/>
     </ItemGroup>
-    
+
     <ItemGroup>
-        <ProjectReference Include="..\..\services\Domain\Company.Platform.Domain.App\Company.Platform.Domain.App.csproj" />
+        <ProjectReference Include="..\..\services\Domain\Company.Platform.Domain.App\Company.Platform.Domain.App.csproj"/>
     </ItemGroup>
 
 </Project>

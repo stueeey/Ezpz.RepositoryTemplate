@@ -1,26 +1,33 @@
 # Simple Brief Template (3-5 sentences is enough!)
 
 ## What
+
 > 1-2 sentences describing what you want to build
 
-## Why  
+## Why
+
 > 1 sentence on why this matters or what problem it solves
 
 ## Constraints (optional)
+
 > Any NON-OBVIOUS requirements like performance limits or business rules
 
 ## Risk Tolerance (optional)
+
 > Low, Medium, or High - helps agent recommend the right approach
 
 ## Starting Points (optional but helpful!)
+
 > Vague hints about where to look - saves agent search time
 
 ---
 
 **What NOT to include** :
+
 - Anything already supplied in claude.md / other docs  (e.g. how to write unit tests)
 
 **What TO include** (helpful hints):
+
 - Specific class names ("use the RedisCacheService")
 - Exact file paths ("look in UserController.cs")
 - General areas ("check how we do authentication")
@@ -30,11 +37,13 @@
 - Exact file paths ("look in UserController.cs")
 - Specific class names ("use the RedisCacheService")
 
-**Why hints help**: The agent will search more efficiently with keywords rather than exploring the entire codebase blindly
+**Why hints help**: The agent will search more efficiently with keywords rather than exploring the entire codebase
+blindly
 
 The agent will:
+
 - Discover your tech stack and patterns
-- Research the codebase for you  
+- Research the codebase for you
 - Create the detailed documentation
 - Present you with simple choices using Risk (🎯) and Effort (💪) measures
 

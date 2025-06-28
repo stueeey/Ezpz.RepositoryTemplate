@@ -9,10 +9,12 @@
 [Document any assumptions made or missing information that would affect recommendations]
 
 **Assumptions made:**
+
 - [Assumption about missing requirement]
 - [Assumption about use case]
 
 **Would benefit from clarification:**
+
 - [Missing requirement that could change recommendation]
 - [Ambiguous constraint that needs clarity]
 
@@ -27,10 +29,12 @@
 **What it is:** [Brief description]
 
 **Pros:**
+
 - [Key advantage]
 - [Key advantage]
 
 **Cons:**
+
 - [Key disadvantage]
 - [Key disadvantage]
 

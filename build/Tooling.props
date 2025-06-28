@@ -1,11 +1,11 @@
 ﻿<Project>
     <!-- Configuration for the build tooling itself -->
-    
+
     <!-- 
         Reduces variation due to the environment when running the build, leading to less build-environment specific build errors 
         see https://github.com/dotnet/reproducible-builds?tab=readme-ov-file
     -->
-    <Sdk Name="DotNet.ReproducibleBuilds.Isolated" Version="1.1.1" />
+    <Sdk Name="DotNet.ReproducibleBuilds.Isolated" Version="1.1.1"/>
 
     <PropertyGroup Condition="'$(TF_BUILD)' == 'true' or '$(GITHUB_ACTIONS)' == 'true'">
         <!-- 
@@ -27,5 +27,5 @@
         <ArtifactsPath Condition="'$(ArtifactsPath)' == ''">$(RepositoryRootDirectory)artifacts/</ArtifactsPath>
         <VSTestResultsDirectory>$(ArtifactsPath)/testresults/$(Configuration.ToLowerInvariant())</VSTestResultsDirectory>
     </PropertyGroup>
-    
+
 </Project>

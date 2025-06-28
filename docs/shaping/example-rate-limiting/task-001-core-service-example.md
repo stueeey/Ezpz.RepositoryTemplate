@@ -6,15 +6,16 @@
 **Dependencies**: None (can start immediately)
 
 ## Objective
+
 Create the core rate limiting service that handles Redis operations and rate limit logic.
 
 ## Implementation Steps
 
 1. Create `Services/RateLimitService.cs`
-   - Define `IRateLimitService` interface
-   - Implement sliding window algorithm using Redis sorted sets
-   - Add fail-open behavior for Redis errors
-   - Include proper logging
+    - Define `IRateLimitService` interface
+    - Implement sliding window algorithm using Redis sorted sets
+    - Add fail-open behavior for Redis errors
+    - Include proper logging
 
 2. Create `Models/RateLimitResult.cs`
    ```csharp
@@ -32,6 +33,7 @@ Create the core rate limiting service that handles Redis operations and rate lim
    ```
 
 ## Validation Criteria
+
 - [ ] Service correctly tracks requests in 1-minute sliding window
 - [ ] Old entries are cleaned up automatically
 - [ ] Returns correct retry-after time when limit exceeded
@@ -39,6 +41,7 @@ Create the core rate limiting service that handles Redis operations and rate lim
 - [ ] Unit tests pass with mocked Redis
 
 ## Notes
+
 - Use the existing `IConnectionMultiplexer` from DI
 - Follow the error handling pattern from `CacheService.cs`
 - Keys should expire after 2 minutes to prevent memory bloat

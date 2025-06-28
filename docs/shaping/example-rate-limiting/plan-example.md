@@ -1,7 +1,9 @@
 # Plan: Add API Rate Limiting
 
 ## Overview
-Implement sliding window rate limiting using Redis sorted sets, with per-endpoint configuration and proper HTTP headers for client visibility.
+
+Implement sliding window rate limiting using Redis sorted sets, with per-endpoint configuration and proper HTTP headers
+for client visibility.
 
 ## Architecture
 
@@ -14,7 +16,9 @@ Implement sliding window rate limiting using Redis sorted sets, with per-endpoin
 ## Detailed Changes
 
 ### 1. Create Rate Limit Attribute and Policy Enum
+
 **File**: `Attributes/RateLimitPolicy.cs` (new)
+
 ```csharp
 /// <summary>
 /// Defines how rate limits are applied
@@ -44,6 +48,7 @@ public enum RateLimitPolicy
 ```
 
 **File**: `Attributes/RateLimitAttribute.cs` (new)
+
 ```csharp
 /// <summary>
 /// Applies rate limiting to controllers or actions based on configurable policies.
@@ -72,7 +77,9 @@ public class RateLimitAttribute : ActionFilterAttribute
 ```
 
 ### 2. Create Rate Limit Service
+
 **File**: `Services/RateLimitService.cs` (new)
+
 ```csharp
 /// <summary>
 /// Service for checking and enforcing rate limits using Redis
@@ -124,7 +131,9 @@ public class RateLimitService : IRateLimitService
 ```
 
 ### 3. Update Startup Configuration
+
 **File**: `Program.cs` (line 47, after Redis configuration)
+
 ```csharp
 // Add rate limiting
 builder.Services.AddSingleton<IRateLimitService, RateLimitService>();
@@ -133,7 +142,9 @@ builder.Services.Configure<RateLimitOptions>(
 ```
 
 ### 4. Add Configuration
+
 **File**: `Configuration/RateLimitOptions.cs` (new)
+
 ```csharp
 /// <summary>
 /// Configuration options for rate limiting
@@ -158,6 +169,7 @@ public class RateLimitOptions
 ```
 
 **File**: `appsettings.json` (line 23, after Redis section)
+
 ```json
 "RateLimit": {
   "DefaultRequestsPerMinute": 100,
@@ -174,7 +186,9 @@ public class RateLimitOptions
 ```
 
 ### 5. Apply to Controllers
+
 **File**: `Controllers/UserController.cs` (line 12)
+
 ```csharp
 [Authorize]
 [RateLimit(RequestsPerMinute = 200)] // Class level
@@ -192,6 +206,7 @@ public class UserController : ControllerBase
 ## User Flows
 
 ### Flow 1: Normal Request
+
 1. User makes API request
 2. RateLimitAttribute checks Redis
 3. Request count is under limit
@@ -199,27 +214,32 @@ public class UserController : ControllerBase
 5. Headers show remaining requests
 
 ### Flow 2: Rate Limited
+
 1. User exceeds rate limit
 2. RateLimitAttribute returns 429
 3. Response includes Retry-After header
 4. Client waits and retries
 
 ### Flow 3: Redis Down
+
 1. Redis connection fails
 2. Service logs error
 3. Request proceeds (fail open)
 4. No rate limit applied
 
 ## Error Handling
+
 - Redis failures: Log and fail open
 - Missing user context: Use IP-based limiting
 - Invalid configuration: Use defaults
 
 ## Testing Strategy
+
 1. Unit tests for RateLimitService logic
 2. Integration tests with Redis test container
 3. Load tests to verify performance impact
 4. Chaos tests for Redis failure scenarios
 
 ## Configuration
+
 All limits configurable in appsettings.json without code changes. Can be overridden per environment.

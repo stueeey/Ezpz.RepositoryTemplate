@@ -1,10 +1,13 @@
 {
-  "mcpServers": {
-    "memory": {
-      "type": "stdio",
-      "command": "npx",
-      "args": [ "-y", "@buger/probe-mcp"],
-      "env": {}
+    "mcpServers": {
+        "memory": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+                "-y",
+                "@buger/probe-mcp"
+            ],
+            "env": {}
+        }
     }
-  }
 }

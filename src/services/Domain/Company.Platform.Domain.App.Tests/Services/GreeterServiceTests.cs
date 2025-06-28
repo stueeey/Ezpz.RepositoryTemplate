@@ -9,8 +9,8 @@ namespace Company.Platform.Domain.App.Tests.Services;
 
 public class GreeterServiceTests
 {
-    private readonly GreeterService _service;
     private readonly Mock<ILogger<GreeterService>> _loggerMock;
+    private readonly GreeterService _service;
 
     public GreeterServiceTests()
     {

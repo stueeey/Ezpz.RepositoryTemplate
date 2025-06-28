@@ -6,6 +6,7 @@
 **Dependencies**: Tasks 002 & 003 (needs attribute and configuration)
 
 ## Objective
+
 Apply rate limiting to existing controllers with appropriate limits based on endpoint sensitivity.
 
 ## Implementation Steps
@@ -38,11 +39,12 @@ Apply rate limiting to existing controllers with appropriate limits based on end
    ```
 
 4. Create middleware to read tier-based limits from configuration
-   - Check user's subscription tier
-   - Apply appropriate limit from configuration
-   - Fall back to defaults if not configured
+    - Check user's subscription tier
+    - Apply appropriate limit from configuration
+    - Fall back to defaults if not configured
 
 ## Validation Criteria
+
 - [ ] Authentication endpoints have strict limits
 - [ ] Read operations have higher limits than writes
 - [ ] Expensive operations have appropriate protection
@@ -50,9 +52,11 @@ Apply rate limiting to existing controllers with appropriate limits based on end
 - [ ] Anonymous users get default limits
 
 ## Rollback Plan
+
 If issues arise, remove attributes from affected controllers. The service will continue to work without rate limiting.
 
 ## Notes
+
 - Start with conservative limits
 - Monitor logs for 429 responses
 - Adjust limits based on actual usage patterns

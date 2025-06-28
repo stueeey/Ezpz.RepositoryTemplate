@@ -5,135 +5,135 @@ Repository:
     #  - Contain most of what the agent needs to know
     #  - Allow the agent to find and ingest anything it needs
     #  - Helps the agent make correct assumptions
-  - CLAUDE.md # Auto-ingested by Claude Code - keep concise and AI-focused
-  - HUMANS.md # Advice for humans using agents in the codebase
-  - README.md # Human documentation - can be verbose with examples
-  - .editorconfig # Code style preferences, with comments for LLM context
-  - .gitignore # One and only git ignore
-  - docs:
-      - README.md # Index of all documentation files with short descriptions 
-      - packages.md # List of internal packages from other repositories and their purpose
-        # Shaping process elevates human-AI collaboration:
-        # - Humans provide business context and architectural judgment
-        # - AI handles research, pattern discovery, and documentation
-        # - Process: BRIEF → EXPLORE → PLAN → CHUNK
-        #
-        # Packages target MINIMUM versions of dependencies to maximize compatibility
-        # since NuGet treats these as lower bounds. This is why they don't use 
-        # central package management - each package should work with the oldest
-        # viable version of its dependencies.
-      # RFC process for large-scale research (vendors, technologies, approaches)
-      # Used BEFORE brief-driven development when extensive research is needed
-      - rfc: # Request for Comments - deep research documents
-        - README.md # Describes the RFC process and when to use it
-        - template.md # Template for writing RFCs
-        - {feature}-rfc: # RFC directories
-            - rfc.md # Main RFC document with recommendations
-            - appendix-vendor-research.md # Optional: detailed vendor analysis
-            - appendix-llm-report-{topic}.md # Optional: specialized AI research
-      - work: # Shaping workspace
-        - {feature}: # Feature name directory
-            - brief.md         # Human: 3-5 sentences on what/why
-            - exploration.md   # AI: Research problem & 2-5 approaches (including reframes)
-            - plan.md         # AI: Shape chosen approach to fit codebase
-            - task-summary.md  # Together: Dependency graph & execution options
-            - task-001-{description}.md  # S/M/L/XL chunked tasks (Small: 1 file, Medium: 2-5 files, Large: 6-10 files, XL: 10+ files)
-            - task-002-{description}.md  # Named descriptively, not just numbers
-      # Legacy design process still valid for complex architectural decisions
-      - adr: # Architecture Decision Records for major technology choices
-            - README.md # Describes what an ADR is and how to write one
-            - template.md # Template for writing ADRs
-            - example_caching_architecture.md # Example ADR for the choice of caching technology
-      - reference: # External information that can be downloaded and read by the agent. Temporary files can be placed here
-        - README.md # Describes what references can be found here. the contents of this folder are git ignored
-        - restore-reference-material.ps1 # Script to restore the reference material so it can be discovered
-      - how-to: # How-to guides for common tasks in the platform (e.g. getting elevated permissions, making a new X, etc). Mostly for humans, agents should consult these documents when asked how-to questions
-        - template.md # Template for writing how-to guides
-        - getting-access-to-production.md # Example how-to guide for getting elevated permissions
-        - publishing-a-nuget-package.md # Example how-to guide for making a self-publishing nuget package project
-      - shaping: # Shaping process methodology and examples
-  - src: # Source code for the application, including code and contracts
-    - README.md # Describes the source code structure and how to navigate it
-      # Packages published from this repository, and usually consumed by the services in it. 
-      # Packages don't use central package management because they target MINIMUM versions
-      # of dependencies to maximize compatibility (NuGet treats these as lower bounds)
-      # Packages should be moved to another repository once stable:
-      # - Low change frequency (< 1 change per month)
-      # - Can be tested in isolation
-      # - Consider sprawl - larger packages need longer stability periods
-    - packages: 
-        - CLAUDE.md # Describes how packages are created and published for agents
-        - README.md # Describes how packages are created and published
-        - events: # Packages are grouped by domain e.g. 'Events' 'Internationalization' 'Packaging'
-           - README.md # Describes the domain and what functionality should live here
-           - Company.Platform.Events # Example package project for events which creates a nupkg on build
-           - Company.Platform.Events.Contracts # Example package project for events which contains only contracts and has minimal dependencies
-           - Company.Platform.Events.CloudEvents # Example package project which deals with a specific subdomain of events
-           - Company.Platform.Events.Tests # Unit tests for the events package, test coverage for packages should be very high
-    - orchestrator: # Aspire orchestrator
-        - Company.Platform.Orchestrator # Aspire orchestrator to run and configure all the services for local development
-    - services: # Services that are part of the platform, which are usually deployed to a cloud environment
-        - CLAUDE.md # Lists the services and their dependencies with short descriptions for agents
-        - packages.props # Central package management for the services, to ease versioning headaches
-        - payments: # Example service that handles payments
-            - README.md # Describes the service and its dependencies
-              # Contracts for the payments service, including:
-              #  - grpc service contracts
-              #  - events published
-              #  - metrics published 
-              #  - service-specific constants
-              #  - a manifest containing metadata about the service
-              # Also published as a nuget package, where the version is the version of the build
-            - Company.Platform.Payments.Contracts 
-            - Company.Platform.Payments.App # The executable example payments service, published as a docker container
-            - Company.Platform.Payments.Migrator.App # Executable host for running migrations for the payments service
-              # Client for the payments service, which can be used by other services (or external consumers) to interact with it
-            - Company.Platform.Payments.Client
-              # Unit tests for the payments service, to verify the code directly
-            - Company.Platform.Payments.App.Tests
-              # Integration tests for the payments service,to verify the API at runtime
-            - Company.Platform.Payments.ApiTests
-              # End to end tests for the payments service, to verify user interaction at runtime
-            - Company.Platform.Payments.E2ETests
-    - specifications: # API contracts, usually OpenAPI definitions and protobuf schemas
-        - CLAUDE.md # Details the organisation of the specifications and how to create, modify and check them
-        - README.md # As above, but more verbose and aimed at humans
-        - openapi: # OpenAPI specifications for the services
-            - Company.Platform.Specifications.Shared # Project which contains shared OpenAPI yaml fragments
-            - Company.Platform.Specifications.PublicApi # OpenAPI specification for a specific api, and api-specific yaml fragments
-        - protobuf: # Shared protobuf schemas for the services
-            - Payment.proto # Example shared protobuf schema, used in several grpc services  
-  - artifacts: # Build artifacts, such as nuget packages, built binaries etc
-    - package: # Nuget packages produced by the build
-    - obj: # Intermediate build files, such as compiled code, pdbs etc
-    - bin: # Final build files, such as dlls, executables, nuget packages etc
-    - publish: # Published binaries, produced by dotnet publish
-    - specifications: # Resulting OpenAPI specifications created from the fragments in src/specifications/openapi
-  - pipelines: # CI/CD pipelines for the repository, including build, test and deployment pipelines
-    - README.md # Describes the pipelines and how to use them
-    - pull-request.yaml # Pipeline for pull requests
-    - build.yaml # Pipeline for the main branch build
-    - deploy.yaml # Pipeline for deploying services to cloud environments
-    - teardown.yaml # Pipeline for tearing down pull request environments
-    - jobs: # Pipeline templates for reuse across pipelines
-    - steps: # Pipeline steps for reuse across pipelines
-  - infrastructure:
-    - modules: # Reusable building blocks for infrastructure
-    - services: # Infrastructure modules for individual services
-    - Main.bicep # The primary unit of deployment
-  - scripts: # Scripts for automating tasks in this repository
-    - setup: # Scripts for setting up your development environment
-        - setup.ps1 # PowerShell script to set up your development environment
-    - tasks: # Scripts for automating tasks in this repository
-        - docker_registry_auth.ps1 # Example script
-  - build:
-    - Analysis.props # controls analysis, warnings etc for all projects
-    - Tooling.props # configures the build itself
-    - LanguageFeatures.props # controls what .net language features to use
-    - RepositoryInfo.props # metadata about the repository and who owns it
-    - conventions:
-      - PackageProject.props / PackageProject.targets  # MSBuild to automatically create a nuget package and apply package-specific rules
-      - ApplicationProject.props / ApplicationProject.targets  # MSBuild to automatically create docker image on publish and apply application-specific rules
-      - UnitTestProject.props / UnitTestProject.targets  # MSBuild to automatically apply test packages (XUnit, AwesomeAssertions, FakeItEasy) and apply unit test-specific rules
+    - CLAUDE.md # Auto-ingested by Claude Code - keep concise and AI-focused
+    - HUMANS.md # Advice for humans using agents in the codebase
+    - README.md # Human documentation - can be verbose with examples
+    - .editorconfig # Code style preferences, with comments for LLM context
+    - .gitignore # One and only git ignore
+    -   docs:
+            - README.md # Index of all documentation files with short descriptions 
+            - packages.md # List of internal packages from other repositories and their purpose
+              # Shaping process elevates human-AI collaboration:
+            # - Humans provide business context and architectural judgment
+            # - AI handles research, pattern discovery, and documentation
+            # - Process: BRIEF → EXPLORE → PLAN → CHUNK
+            #
+            # Packages target MINIMUM versions of dependencies to maximize compatibility
+            # since NuGet treats these as lower bounds. This is why they don't use 
+            # central package management - each package should work with the oldest
+            # viable version of its dependencies.
+            # RFC process for large-scale research (vendors, technologies, approaches)
+            # Used BEFORE brief-driven development when extensive research is needed
+            -   rfc: # Request for Comments - deep research documents
+                    - README.md # Describes the RFC process and when to use it
+                    - template.md # Template for writing RFCs
+                    - { feature }-rfc: # RFC directories
+                                     - rfc.md # Main RFC document with recommendations
+                                     - appendix-vendor-research.md # Optional: detailed vendor analysis
+                                     - appendix-llm-report-{topic}.md # Optional: specialized AI research
+            -   work: # Shaping workspace
+                    - { feature }: # Feature name directory
+                          - brief.md         # Human: 3-5 sentences on what/why
+                          - exploration.md   # AI: Research problem & 2-5 approaches (including reframes)
+                          - plan.md         # AI: Shape chosen approach to fit codebase
+                          - task-summary.md  # Together: Dependency graph & execution options
+                          - task-001-{description}.md  # S/M/L/XL chunked tasks (Small: 1 file, Medium: 2-5 files, Large: 6-10 files, XL: 10+ files)
+                          - task-002-{description}.md  # Named descriptively, not just numbers
+            # Legacy design process still valid for complex architectural decisions
+            -   adr: # Architecture Decision Records for major technology choices
+                    - README.md # Describes what an ADR is and how to write one
+                    - template.md # Template for writing ADRs
+                    - example_caching_architecture.md # Example ADR for the choice of caching technology
+            -   reference: # External information that can be downloaded and read by the agent. Temporary files can be placed here
+                    - README.md # Describes what references can be found here. the contents of this folder are git ignored
+                    - restore-reference-material.ps1 # Script to restore the reference material so it can be discovered
+            -   how-to: # How-to guides for common tasks in the platform (e.g. getting elevated permissions, making a new X, etc). Mostly for humans, agents should consult these documents when asked how-to questions
+                    - template.md # Template for writing how-to guides
+                    - getting-access-to-production.md # Example how-to guide for getting elevated permissions
+                    - publishing-a-nuget-package.md # Example how-to guide for making a self-publishing nuget package project
+            -   shaping: # Shaping process methodology and examples
+    -   src: # Source code for the application, including code and contracts
+            - README.md # Describes the source code structure and how to navigate it
+            # Packages published from this repository, and usually consumed by the services in it. 
+            # Packages don't use central package management because they target MINIMUM versions
+            # of dependencies to maximize compatibility (NuGet treats these as lower bounds)
+            # Packages should be moved to another repository once stable:
+            # - Low change frequency (< 1 change per month)
+            # - Can be tested in isolation
+            # - Consider sprawl - larger packages need longer stability periods
+            -   packages:
+                    - CLAUDE.md # Describes how packages are created and published for agents
+                    - README.md # Describes how packages are created and published
+                    -   events: # Packages are grouped by domain e.g. 'Events' 'Internationalization' 'Packaging'
+                            - README.md # Describes the domain and what functionality should live here
+                            - Company.Platform.Events # Example package project for events which creates a nupkg on build
+                            - Company.Platform.Events.Contracts # Example package project for events which contains only contracts and has minimal dependencies
+                            - Company.Platform.Events.CloudEvents # Example package project which deals with a specific subdomain of events
+                            - Company.Platform.Events.Tests # Unit tests for the events package, test coverage for packages should be very high
+            -   orchestrator: # Aspire orchestrator
+                    - Company.Platform.Orchestrator # Aspire orchestrator to run and configure all the services for local development
+            -   services: # Services that are part of the platform, which are usually deployed to a cloud environment
+                    - CLAUDE.md # Lists the services and their dependencies with short descriptions for agents
+                    - packages.props # Central package management for the services, to ease versioning headaches
+                    -   payments: # Example service that handles payments
+                            - README.md # Describes the service and its dependencies
+                            # Contracts for the payments service, including:
+                            #  - grpc service contracts
+                            #  - events published
+                            #  - metrics published 
+                            #  - service-specific constants
+                            #  - a manifest containing metadata about the service
+                            # Also published as a nuget package, where the version is the version of the build
+                            - Company.Platform.Payments.Contracts
+                            - Company.Platform.Payments.App # The executable example payments service, published as a docker container
+                            - Company.Platform.Payments.Migrator.App # Executable host for running migrations for the payments service
+                            # Client for the payments service, which can be used by other services (or external consumers) to interact with it
+                            - Company.Platform.Payments.Client
+                            # Unit tests for the payments service, to verify the code directly
+                            - Company.Platform.Payments.App.Tests
+                            # Integration tests for the payments service,to verify the API at runtime
+                            - Company.Platform.Payments.ApiTests
+                            # End to end tests for the payments service, to verify user interaction at runtime
+                            - Company.Platform.Payments.E2ETests
+            -   specifications: # API contracts, usually OpenAPI definitions and protobuf schemas
+                    - CLAUDE.md # Details the organisation of the specifications and how to create, modify and check them
+                    - README.md # As above, but more verbose and aimed at humans
+                    -   openapi: # OpenAPI specifications for the services
+                            - Company.Platform.Specifications.Shared # Project which contains shared OpenAPI yaml fragments
+                            - Company.Platform.Specifications.PublicApi # OpenAPI specification for a specific api, and api-specific yaml fragments
+                    -   protobuf: # Shared protobuf schemas for the services
+                            - Payment.proto # Example shared protobuf schema, used in several grpc services  
+    -   artifacts: # Build artifacts, such as nuget packages, built binaries etc
+            -   package: # Nuget packages produced by the build
+            -   obj: # Intermediate build files, such as compiled code, pdbs etc
+            -   bin: # Final build files, such as dlls, executables, nuget packages etc
+            -   publish: # Published binaries, produced by dotnet publish
+            -   specifications: # Resulting OpenAPI specifications created from the fragments in src/specifications/openapi
+    -   pipelines: # CI/CD pipelines for the repository, including build, test and deployment pipelines
+            - README.md # Describes the pipelines and how to use them
+            - pull-request.yaml # Pipeline for pull requests
+            - build.yaml # Pipeline for the main branch build
+            - deploy.yaml # Pipeline for deploying services to cloud environments
+            - teardown.yaml # Pipeline for tearing down pull request environments
+            -   jobs: # Pipeline templates for reuse across pipelines
+            -   steps: # Pipeline steps for reuse across pipelines
+    -   infrastructure:
+            -   modules: # Reusable building blocks for infrastructure
+            -   services: # Infrastructure modules for individual services
+            - Main.bicep # The primary unit of deployment
+    -   scripts: # Scripts for automating tasks in this repository
+            -   setup: # Scripts for setting up your development environment
+                    - setup.ps1 # PowerShell script to set up your development environment
+            -   tasks: # Scripts for automating tasks in this repository
+                    - docker_registry_auth.ps1 # Example script
+    -   build:
+            - Analysis.props # controls analysis, warnings etc for all projects
+            - Tooling.props # configures the build itself
+            - LanguageFeatures.props # controls what .net language features to use
+            - RepositoryInfo.props # metadata about the repository and who owns it
+            -   conventions:
+                    - PackageProject.props / PackageProject.targets  # MSBuild to automatically create a nuget package and apply package-specific rules
+                    - ApplicationProject.props / ApplicationProject.targets  # MSBuild to automatically create docker image on publish and apply application-specific rules
+                    - UnitTestProject.props / UnitTestProject.targets  # MSBuild to automatically apply test packages (XUnit, AwesomeAssertions, FakeItEasy) and apply unit test-specific rules
           
         

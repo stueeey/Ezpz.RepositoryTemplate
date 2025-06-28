@@ -1,9 +1,7 @@
 using Company.Platform.Domain.App;
-using Company.Platform.Domain.Client;
 using FluentAssertions;
 using Grpc.Net.Client;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 
 namespace Company.Platform.Domain.ApiTests;
@@ -11,10 +9,6 @@ namespace Company.Platform.Domain.ApiTests;
 [TestFixture]
 public class GreeterApiTests
 {
-    private WebApplicationFactory<Program> _factory;
-    private GrpcChannel _channel;
-    private Greeter.GreeterClient _client;
-
     [OneTimeSetUp]
     public void OneTimeSetUp()
     {
@@ -48,6 +42,10 @@ public class GreeterApiTests
     {
         _factory?.Dispose();
     }
+
+    private WebApplicationFactory<Program> _factory;
+    private GrpcChannel _channel;
+    private Greeter.GreeterClient _client;
 
     [Test]
     public async Task SayHello_WithValidName_ReturnsExpectedGreeting()
