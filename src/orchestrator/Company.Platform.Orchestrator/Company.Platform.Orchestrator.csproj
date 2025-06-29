@@ -14,6 +14,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\services\Domain\Company.Platform.Domain.App\Company.Platform.Domain.App.csproj"/>
+        <ProjectReference Include="..\..\services\UrlShortener\Company.Platform.UrlShortener.App\Company.Platform.UrlShortener.App.csproj"/>
     </ItemGroup>
 
 </Project>

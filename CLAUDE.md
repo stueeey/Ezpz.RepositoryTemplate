@@ -6,11 +6,18 @@ remember: You do the heavy lifting (research, documentation, technical details) 
 
 # Repository Guide
 
+**CONVENTION**: Always look for `CLAUDE.md` files in any folder you're working in. These contain specific instructions for that context:
+- `docs/shaping/CLAUDE.md` - Detailed shaping methodology
+- `docs/rfc/CLAUDE.md` - RFC process instructions
+- `docs/adr/CLAUDE.md` - ADR documentation guidelines
+
 **IMPORTANT**: This repository uses specific processes for different types of work:
 
 - **RFC Process** → For technology/vendor/architecture selection (create `docs/rfc/{topic}/brief.md`)
 - **Shaping Process** → For feature implementation (create `docs/work/{feature}/brief.md`)
 - **ADR Process** → For documenting major decisions (create `docs/adr/ADR-{number}-{title}.md`)
+
+You MUST read [process-flow](docs/process-flow.md) when attempting a non-trivial task as well as the documents describing the selected process, you can enumerate the documentation by listing the files under docs/shaping, docs/RFC or docs/ADR 
 
 **YOUR FIRST ACTION**: When receiving any non-trivial request, identify which process to use:
 
@@ -30,6 +37,8 @@ Never skip these processes unless it's a trivial fix which does not require upfr
 - "Looking for a message queue" → RFC for Kafka/RabbitMQ/ServiceBus
 - "Should we use X or Y?" → RFC comparing options
 - Any vendor/technology selection
+- Changes requiring research on the internet as to the best solution
+- Complex requests with many valid approaches and no obvious right choice
 
 **Shaping Process** (Start when hearing):
 
@@ -48,9 +57,24 @@ Never skip these processes unless it's a trivial fix which does not require upfr
 ### Shaping Process Steps
 
 1. **Create brief** → `docs/work/{feature}/brief.md` (or ask user to write)
-2. **Explore options** → Research codebase, find 2-5 approaches + reframes
-3. **Plan implementation** → Shape chosen approach to fit patterns
-4. **Chunk into tasks** → Create executable S/M/L/XL work items
+2. **Explore options** → `docs/work/{feature}/exploration.md` - Research codebase, find 2-5 approaches + reframes
+3. **Plan implementation** → `docs/work/{feature}/plan.md` - Shape chosen approach to fit patterns
+4. **Chunk into tasks** → Create individual task files:
+   - `docs/work/{feature}/task-summary.md` - Overview with dependency graph
+   - `docs/work/{feature}/task-001-descriptive-name.md` - Individual task file
+   - `docs/work/{feature}/task-002-descriptive-name.md` - etc.
+   - Use descriptive names, not just numbers!
+
+**Task Files Must Include** (see `docs/shaping/claude-instructions.md` for full details):
+- Size estimate (S/M/L/XL) with risk (🎯) and effort (💪) ratings
+- Dependencies on other tasks
+- Objective and implementation steps
+- Validation criteria as checklist
+- Code snippets where helpful
+- Risk ratings: Very Low, Low, Medium, High
+- Effort ratings: Trivial, Easy, Medium, High, Very High
+
+**IMPORTANT**: Read `docs/shaping/claude-instructions.md` for the complete shaping methodology!
 
 **ALWAYS explore reframes** - ways to eliminate the problem entirely!
 
@@ -126,7 +150,7 @@ src/
 
 ## Testing Guidelines
 
-- **Unit Tests**: TUnit, AwesomeAssertions (FluentAssertions fork), FakeItEasy
+- **Unit Tests**: TUnit, AwesomeAssertions (FluentAssertions fork, identical including namespaces), FakeItEasy
 - **API Tests**: TUnit
 - **E2E Tests**: TUnit, Playwright
 - Run tests after code changes
@@ -139,6 +163,7 @@ src/
 - **IMPORTANT**: Check for existing patterns before creating new ones
 - Create feedback files when documentation is missing so that it can be improved
 - Follow the Brief → Explore → Plan → Chunk process for features
+- Create individual task files, not just a summary - see `docs/shaping/example-rate-limiting/` for examples
 - Use semantic commit messages (feat:, fix:, docs:, refactor:)
 - Never push directly to main branch
 
@@ -147,8 +172,10 @@ src/
 ```bash
 # Build & Test
 dotnet build                    # Build all projects
-dotnet test --filter xunit      # Run unit tests only
-dotnet test --filter NUnit      # Run API/E2E tests only
+dotnet test --filter TUnit      # Run all TUnit tests
+dotnet test --filter "Category=Unit"      # Run unit tests only
+dotnet test --filter "Category=Integration" # Run integration/API tests only
+dotnet test --filter "Category=E2E"       # Run E2E tests only
 
 # Local Development
 dotnet run --project src/orchestrator/Company.Platform.Orchestrator  # Start Aspire orchestrator
